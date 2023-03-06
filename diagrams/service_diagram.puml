@@ -1,0 +1,14 @@
+@startuml
+participant Client         as client
+control     Control        as endpoint
+entity      "Rule Engine"  as engine
+database    Database       as db
+
+client -> endpoint : Http request to controllers \n with params
+endpoint -> engine : Pass parameters to the engine
+engine <-> db : Get business rules
+engine -> engine : Produce result based on \n rules and parameters
+engine -> endpoint : Return result
+endpoint -> client : Http response with engine \n results
+
+@enduml
