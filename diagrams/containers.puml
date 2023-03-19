@@ -1,0 +1,22 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include DEVICONS/angular.puml
+!include FONTAWESOME/users.puml
+
+title Container Diagram for MAP
+
+Person(user, "Sales representative", "People that need create proposal", $sprite="users")
+System_Boundary(map, "MAP") {
+    Container(spa, "SPA", "angular", "The main interface that the sales interacts with", $sprite="angular")
+    Container(bre, "BRE", "python", "Filter, validate and generate data based on business rules")
+    ContainerDb(db, "Database", "postgres", "Store business rules")
+}
+
+Rel(user, spa, "Uses", "HTTPS")
+Rel(spa, bre, "Make API call to", "Json/https")
+Rel_L(db, bre, "Get business rules")
+
+@enduml

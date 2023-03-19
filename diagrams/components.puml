@@ -1,0 +1,25 @@
+@startuml
+!include https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+title Component Diagram for BRE
+
+Container(spa, "SPA", "angular", "The main interface that the sales interacts with")
+Container_Boundary(map, "BRE") {
+    Component(cntrFilter, "Filter Controller", "FastAPI MVC Rest controller", "Filter client data")
+    Component(cntrValidator, "Validation Controller", "FastAPI MVC Rest controller", "Validate client data")
+    Component(cntrGenerator, "Generator Controller", "FastAPI MVC Rest controller", "Generate new dataset based on client data")
+    Component(bre, "Business Rule Engine", "Class", "Filter, validate or generate data based on client parameters and business rules")
+}
+ContainerDb(db, "Database", "postgres", "Store business rules")
+
+Rel(spa, cntrFilter, "Make API call to", "Json/https")
+Rel(spa, cntrValidator, "Make API call to", "Json/https")
+Rel(spa, cntrGenerator, "Make API call to", "Json/https")
+
+Rel(cntrFilter, bre, "Uses")
+Rel(cntrValidator, bre, "Uses")
+Rel(cntrGenerator, bre, "Uses")
+
+Rel(bre, db, "Get business rules")
+
+@enduml

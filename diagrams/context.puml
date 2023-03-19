@@ -1,0 +1,15 @@
+@startuml
+!include https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
+
+title System Context Diagram for business
+
+Person(sale, "Sales Representative", "Company sales representatives the main users of the application")
+System(map, "MAP", "Allow sales representative to create new proposals. Suggest the best advertising providers")
+System(ds, "Data science", "Responsible for heavy calculations")
+
+Rel(sale, map, "Create proposals")
+BiRel_R(map, ds, "Calculations", "http/grpc")
+
+@enduml
+
+
